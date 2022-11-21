@@ -13,7 +13,7 @@ export function ListingPage() {
 
   const listingData: Listing[] = useAppSelector(selectListings);
 
-  const [filterCat, setFilterCat] = useState("");
+  const [filterCat, setFilterCat] = useState<string>("");
 
   const categoriesFromListing: string[] = [
     ...new Set(
@@ -23,7 +23,40 @@ export function ListingPage() {
     ),
   ];
 
-  console.log(categoriesFromListing);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState(
+    categoriesFromListing.map((cat) => ({ key: cat, title: cat }))
+  );
+
+  const categoryView = (category: string) => () => {
+    const filterListingData = listingData?.filter((listing) => {
+      if (category === "all") {
+        return true;
+      } else if (listing.category.category === category) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    return (
+      <View style={styles.cardContainer}>
+        {filterListingData.map((list) => {
+          return <ListingCard key={list.id} listing={list} />;
+        })}
+      </View>
+    );
+  };
+
+  const sceneMapObject = Object.fromEntries(
+    ["all", ...categoriesFromListing].map((category) => [
+      category,
+      categoryView(category),
+    ])
+  );
+
+  console.log(sceneMapObject);
+
+  const renderScene = SceneMap(sceneMapObject);
 
   const changeCategoryFilter = (value: string) => {
     setFilterCat(value);
@@ -55,11 +88,11 @@ export function ListingPage() {
       {!filterListingData ? (
         <Text>loading</Text>
       ) : (
-        <View style={styles.cardContainer}>
-          {filterListingData.map((list) => {
-            return <ListingCard key={list.id} listing={list} />;
-          })}
-        </View>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+        />
       )}
     </ScrollView>
   );
