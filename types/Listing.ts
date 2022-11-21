@@ -18,7 +18,7 @@ export type UserType = {
   zip_code: string;
   street_name: string;
   house_nr: number;
-  image: string | null;
+  image: string;
 };
 
 export type CategoryType = {

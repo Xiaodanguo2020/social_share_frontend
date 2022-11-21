@@ -1,18 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../index";
+import { Listing } from "../../types";
 
-const initialState = {
+interface ListingState {
+  listing: Listing[];
+}
 
-  };
-  
-  export const listingSlice = createSlice({
-    name: "listingSlice",
-    initialState,
-    reducers: {
-      
+const initialState: ListingState = {
+  listing: [],
+};
+
+export const listingSlice = createSlice({
+  name: "listingSlice",
+  initialState,
+  reducers: {
+    listingFetched: (state, action: PayloadAction<Listing[]>) => {
+      //   console.log("listing action payload", action.payload);
+      state.listing = [...action.payload];
     },
-  });
-  
-  export const {  } =
-    listingSlice.actions;
-  
-  export default listingSlice.reducer;
+  },
+});
+
+export const { listingFetched } = listingSlice.actions;
+
+export default listingSlice.reducer;
