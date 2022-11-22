@@ -3,12 +3,20 @@ import { fetchListings } from "../store/listing/thunk";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectListings } from "../store/listing/selector";
 import { CategoryType, Listing } from "../types";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import ListingCard from "../componants/ListingCard";
 import { Picker } from "@react-native-picker/picker";
 import { TabView, SceneMap } from "react-native-tab-view";
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export function ListingPage() {
+type ListingStackParamList = {
+  Listing: undefined;
+  Details: { listingId: number };
+};
+
+type Props = NativeStackScreenProps<ListingStackParamList, 'Listing'>;
+
+export function ListingPage({ navigation }: Props) {
   const dispatch = useAppDispatch();
 
   const listingData: Listing[] = useAppSelector(selectListings);
@@ -57,7 +65,13 @@ export function ListingPage() {
       ) : (
         <View style={styles.cardContainer}>
           {filterListingData.map((list) => {
-            return <ListingCard key={list.id} listing={list} />;
+            return (
+              <TouchableOpacity onPress={() => {
+                navigation.navigate("Details", { listingId: list.id })
+              }} key={list.id}>
+                <ListingCard listing={list} />
+              </TouchableOpacity>
+            );
           })}
         </View>
       )}
