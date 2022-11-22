@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import { fetchListings } from "../store/listing/thunk";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectListings } from "../store/listing/selector";
-import { CategoryType, Listing } from "../types";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { Listing } from "../typed";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import ListingCard from "../componants/ListingCard";
 import { Picker } from "@react-native-picker/picker";
-import { TabView, SceneMap } from "react-native-tab-view";
 
-export function ListingPage() {
+export function ListingPage({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch();
 
   const listingData: Listing[] = useAppSelector(selectListings);
@@ -57,7 +62,14 @@ export function ListingPage() {
       ) : (
         <View style={styles.cardContainer}>
           {filterListingData.map((list) => {
-            return <ListingCard key={list.id} listing={list} />;
+            return (
+              <TouchableOpacity
+                key={list.id}
+                onPress={() => navigation.navigate("Details", { id: list.id })}
+              >
+                <ListingCard key={list.id} listing={list} />
+              </TouchableOpacity>
+            );
           })}
         </View>
       )}

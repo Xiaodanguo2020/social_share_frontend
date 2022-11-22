@@ -7,6 +7,14 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+// Lets define it here first for clear comparision
+import { StackParamList } from "./typed";
+
+// const Stack = createStackNavigator();
+
+// // You are using Line 46 Stack instead of RootStack, so Stack is the one you want to type
+const Stack = createStackNavigator<StackParamList>();
 
 const AppWrapper = () => {
   return (
@@ -18,24 +26,27 @@ const AppWrapper = () => {
 
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: { position: "absolute" },
-      }}
-    >
-      <Tab.Screen name="Listing" component={ListingPage}></Tab.Screen>
-      <Tab.Screen name="Details" component={DetailsPage}></Tab.Screen>
-      <Tab.Screen name="Add" component={AddNewPage}></Tab.Screen>
-    </Tab.Navigator>
-  );
-}
+// function MyTabs() {
+//   return (
+//     <Tab.Navigator
+//       screenOptions={{
+//         tabBarStyle: { position: "absolute" },
+//       }}
+//     >
+//       <Tab.Screen name="Listing" component={ListingPage} />
+//       <Tab.Screen name="Details" component={DetailsPage} />
+//       <Tab.Screen name="Add" component={AddNewPage} />
+//     </Tab.Navigator>
+//   );
+// }
 
 function App() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator>
+        <Stack.Screen name="Listing" component={ListingPage} />
+        <Stack.Screen name="Details" component={DetailsPage} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
@@ -51,3 +62,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
 });
+
+{
+  //   /* <Stack.Navigator>
+  // <Stack.Screen name="Listing" component={ListingPage} />
+  // <Stack.Screen name="Details" component={DetailsPage} />
+  // </Stack.Navigator> */
+}

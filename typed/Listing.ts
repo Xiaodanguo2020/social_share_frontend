@@ -14,6 +14,7 @@ export type UserType = {
   id: number;
   name: string;
   email: string;
+  about: string;
   password: string;
   zip_code: string;
   street_name: string;

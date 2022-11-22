@@ -1,7 +1,15 @@
 import React from "react";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { listingFetched } from "../store/listing/slice";
 
-import { Listing } from "../types";
+import { Listing } from "../typed";
 
 export default function ListingCard<FC>(props: { listing: Listing }) {
   return (
@@ -21,13 +29,7 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
         <View style={styles.userContainer}>
           <Image
             style={styles.avatarImage}
-            source={
-              props.listing.user.image
-                ? { uri: props.listing.user.image }
-                : {
-                    uri: "https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png",
-                  }
-            }
+            source={{ uri: props.listing.user.image }}
           />
           <Text style={styles.description}>{props.listing.user.name}</Text>
         </View>

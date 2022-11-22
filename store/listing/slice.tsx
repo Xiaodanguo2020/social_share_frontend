@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
-import { Listing } from "../../types";
+import { Listing } from "../../typed";
 
 interface ListingState {
   listing: Listing[];
+  detailListing: Listing;
 }
 
 const initialState: ListingState = {
   listing: [],
+  detailListing: {} as Listing,
 };
 
 export const listingSlice = createSlice({
@@ -18,9 +20,13 @@ export const listingSlice = createSlice({
       //   console.log("listing action payload", action.payload);
       state.listing = [...action.payload];
     },
+
+    selectedListingFetched: (state, action: PayloadAction<Listing>) => {
+      state.detailListing = { ...action.payload };
+    },
   },
 });
 
-export const { listingFetched } = listingSlice.actions;
+export const { listingFetched, selectedListingFetched } = listingSlice.actions;
 
 export default listingSlice.reducer;
