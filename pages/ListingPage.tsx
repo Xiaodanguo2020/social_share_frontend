@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchListings } from "../store/listing/thunk";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectListings } from "../store/listing/selector";
+import { logOut } from "../store/user/slice";
 import { Listing } from "../typed";
 import {
   StyleSheet,
@@ -12,8 +13,13 @@ import {
 } from "react-native";
 import ListingCard from "../componants/ListingCard";
 import { Picker } from "@react-native-picker/picker";
+import { getTokenfromStore } from "../store/user/thunk";
 
 export function ListingPage({ navigation }: { navigation: any }) {
+  // useEffect(() => {
+  //   const dispatch = useAppDispatch();
+  //   dispatch(getTokenfromStore());
+  // }, []);
   const dispatch = useAppDispatch();
 
   const listingData: Listing[] = useAppSelector(selectListings);
@@ -28,7 +34,7 @@ export function ListingPage({ navigation }: { navigation: any }) {
     ),
   ];
 
-  console.log(categoriesFromListing);
+  // console.log(categoriesFromListing);
 
   const changeCategoryFilter = (value: string) => {
     setFilterCat(value);
@@ -36,10 +42,11 @@ export function ListingPage({ navigation }: { navigation: any }) {
 
   useEffect(() => {
     dispatch(fetchListings());
+    // dispatch(getTokenfromStore());
   }, [dispatch]);
 
   const filterListingData = listingData?.filter((listing) => {
-    if (filterCat === "") {
+    if (filterCat === "" || filterCat === "Filter all") {
       return true;
     } else if (listing.category.category === filterCat) {
       return true;
@@ -48,12 +55,16 @@ export function ListingPage({ navigation }: { navigation: any }) {
     }
   });
 
-  console.log("filter data", filterListingData);
+  // console.log("filter data", filterListingData);
 
   return (
     <ScrollView>
-      <Picker selectedValue={filterCat} onValueChange={changeCategoryFilter}>
-        {categoriesFromListing.map((cat) => {
+      <Picker
+        itemStyle={{ height: 72 }}
+        selectedValue={filterCat}
+        onValueChange={changeCategoryFilter}
+      >
+        {["Filter all", ...categoriesFromListing].map((cat) => {
           return <Picker.Item key={cat} label={cat} value={cat} />;
         })}
       </Picker>
@@ -73,6 +84,15 @@ export function ListingPage({ navigation }: { navigation: any }) {
           })}
         </View>
       )}
+      <TouchableOpacity
+        style={styles.logOutContainer}
+        onPress={() => {
+          dispatch(logOut());
+          navigation.navigate("Login");
+        }}
+      >
+        <Text>Logout here temporarily</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -84,5 +104,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     maxWidth: "100%",
+  },
+  logOutContainer: {
+    height: 40,
   },
 });

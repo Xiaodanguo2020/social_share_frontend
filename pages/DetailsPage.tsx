@@ -19,7 +19,7 @@ import { Marker, Circle } from "react-native-maps";
 export function DetailsPage(props: Props /*NavigationPageType*/) {
   const dispatch = useAppDispatch();
   const id = props.route.params.id;
-  console.log(props.route.params.id, "this should be route params");
+  //   console.log(props.route.params.id, "this should be route params");
 
   const listingData: Listing = useAppSelector(selectOneListing);
 
@@ -41,6 +41,7 @@ export function DetailsPage(props: Props /*NavigationPageType*/) {
     : "";
 
   const getGeocode = async () => {
+    setGeoLoc(null);
     const response = await Location.geocodeAsync(userAddress);
     const latitude = response[0].latitude;
     const longitude = response[0].longitude;
@@ -51,7 +52,9 @@ export function DetailsPage(props: Props /*NavigationPageType*/) {
     getGeocode();
   }, []);
 
-  console.log("myGeoLoc", geoLoc);
+  console.log("geocode", geoLoc);
+
+  //   console.log("myGeoLoc", geoLoc);
   return (
     <ScrollView>
       {!listingData || !listingData.category || !listingData.user ? (
@@ -80,7 +83,7 @@ export function DetailsPage(props: Props /*NavigationPageType*/) {
             {/* <Text style={styles.description}>{listingData.user.about}</Text> */}
           </View>
           <View style={styles.mapContainer}>
-            {geoLoc && (
+            {geoLoc ? (
               <MapView
                 style={styles.map}
                 initialRegion={{
@@ -98,6 +101,8 @@ export function DetailsPage(props: Props /*NavigationPageType*/) {
                   strokeColor={"rgba(246,124,96,0.4)"}
                 />
               </MapView>
+            ) : (
+              <Text>loading map...</Text>
             )}
           </View>
         </View>
@@ -109,7 +114,7 @@ export function DetailsPage(props: Props /*NavigationPageType*/) {
 const styles = StyleSheet.create({
   topContainer: {
     // alignItems: "center",
-    padding: 24,
+    padding: 16,
   },
 
   image: {
@@ -152,9 +157,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     paddingTop: 8,
-    paddingBottom: 16,
-    paddingLeft: 24,
-    paddingRight: 24,
+    padding: 16,
   },
   infoContainer: {
     flexDirection: "column",
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   map: {
-    width: 320,
-    height: 200,
+    width: 332,
+    height: 240,
   },
 });

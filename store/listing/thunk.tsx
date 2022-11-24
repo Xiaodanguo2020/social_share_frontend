@@ -5,7 +5,6 @@ import { Listing } from "../../typed";
 import { ThunkAction } from "redux-thunk";
 import { RootState, AppDispatch } from "../index";
 import { listingFetched, selectedListingFetched } from "./slice";
-import { createCacheKeyComparator } from "reselect/es/defaultMemoize";
 
 export const fetchListings =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -33,7 +32,7 @@ export const fetchOneListing =
   (id: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       const response = await axios.get<Listing>(`${apiUrl}/listings/${id}`);
-      console.log("my one listing data", response.data);
+      //   console.log("my one listing data", response.data);
       dispatch(selectedListingFetched(response.data));
     } catch (e: any) {
       console.log(e.message);

@@ -26,3 +26,8 @@ export type CategoryType = {
   id: number;
   category: string;
 };
+
+export type FormValues = {
+  email: string;
+  password: string;
+};
