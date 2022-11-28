@@ -53,10 +53,10 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="UserDashboard" component={UserDashboardPage} />
         <Stack.Screen name="Listing" component={ListingPage} />
         <Stack.Screen name="Details" component={DetailsPage} />
         <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="UserDashboard" component={UserDashboardPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,21 +1,28 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { selectMyRequest, selectUser } from "../store/user/selector";
-import { MyRequests, UserType } from "../typed";
-import ListingSmallCard from "../componants/ListingCard";
+import {
+  selectMyListing,
+  selectMyRequest,
+  selectUser,
+} from "../store/user/selector";
+import { EnrichedRequest, MyRequests, UserType } from "../typed";
+import ListingSmallCard from "../componants/ListingSmallCard";
 
 export const UserDashboardPage = () => {
   const dispatch = useAppDispatch();
 
-  const myRequestData = useAppSelector(selectMyRequest);
+  const myRequestData: EnrichedRequest[] = useAppSelector(selectMyRequest);
+  const myListingData = useAppSelector(selectMyListing);
   const userData: UserType = useAppSelector(selectUser);
 
-  //   console.log("this is my requst data", myRequestData);
+  console.log("this is mylisting data", myListingData);
 
   return (
     <View>
       <Text>
+        {" "}
+        My Request
         <View style={styles.userContainer}>
           <Image style={styles.avatarImage} source={{ uri: userData?.image }} />
           <View style={styles.infoContainer}>
@@ -23,9 +30,7 @@ export const UserDashboardPage = () => {
             <Text>
               {userData?.zip_code} {userData?.street_name}
             </Text>
-            <Text style={styles.description}>
-              {`Dear neighbours, I will need this item for couple of days, thank you`}
-            </Text>
+            <Text style={styles.description}></Text>
           </View>
         </View>
       </Text>
@@ -34,19 +39,18 @@ export const UserDashboardPage = () => {
           <Text>loading...</Text>
         ) : (
           myRequestData.map((req) => {
-            return req.listings.map((listing) => (
-              // <ListingSmallCard key={listing.id} listing={listing} />
-              <View key={listing.id}>
-                <Text>{req.id}</Text>
-                <Text>{listing.title}</Text>
-                <Image
-                  style={styles.avatarImage}
-                  source={{ uri: listing.user.image }}
-                />
-                <Image style={styles.image} source={{ uri: listing?.image }} />
-                <Text>{listing.order?.status}</Text>
+            return (
+              <View style={styles.cardContainer}>
+                <Text style={styles.title}>{req.title}</Text>
+                {/* <Text>{req.start_date?.toISOString()}</Text>
+                <Text>{req.end_date?.toISOString()}</Text> */}
+                <Text>{`Dear neighbours, I will need this item for couple of days, thank you`}</Text>
+                {req?.listings?.map((listing) => (
+                  <ListingSmallCard key={listing.id} listing={listing} />
+                ))}
               </View>
-            ));
+            );
+
             // if (req.listings) {
             //   return <Text>{req?.listing.listing.user.name}</Text>;
             // } else return <Text>loading list data...</Text>;
@@ -58,9 +62,19 @@ export const UserDashboardPage = () => {
 };
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 16,
+    margin: 16,
+  },
+  container: {
+    padding: 16,
+    width: "100%",
+  },
   image: {
-    width: 80,
-    height: 80,
+    width: 64,
+    height: 64,
     resizeMode: "cover",
     backgroundColor: "blue",
     marginBottom: 16,

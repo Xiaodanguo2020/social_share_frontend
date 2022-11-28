@@ -15,3 +15,7 @@ export const selectErrorMessage = (reduxState: RootState) => {
 export const selectMyRequest = (reduxState: RootState) => {
   return reduxState.user.myRequests;
 };
+
+export const selectMyListing = (reduxState: RootState) => {
+  return reduxState.user.myListings;
+};

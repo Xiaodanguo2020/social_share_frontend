@@ -25,12 +25,17 @@ export default function ListingSmallCard<FC>(props: { listing: Listing }) {
             {props.listing.description}
           </Text>
         </View>
-        <View style={styles.userContainer}>
-          <Image
-            style={styles.avatarImage}
-            source={{ uri: props.listing.user.image }}
-          />
-          <Text style={styles.description}>{props.listing.user.name}</Text>
+        <View style={styles.oneContainer}>
+          <View style={styles.userContainer}>
+            <Image
+              style={styles.avatarImage}
+              source={{ uri: props.listing.user.image }}
+            />
+            <Text style={styles.description}>{props.listing.user.name}</Text>
+          </View>
+          <Text numberOfLines={1} style={styles.title}>
+            {props.listing.order?.status}
+          </Text>
         </View>
       </View>
     </View>
@@ -39,8 +44,8 @@ export default function ListingSmallCard<FC>(props: { listing: Listing }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: 320,
+    // flex: 1,
+    width: 350,
     height: 120,
     borderRadius: 8,
 
@@ -56,17 +61,18 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   imageContainer: {
-    flex: 1,
+    // flex: 1,
   },
   image: {
     width: 80,
     height: 80,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    // borderRadius: 8,
     resizeMode: "cover",
     backgroundColor: "blue",
   },
   bottomContainer: {
+    padding: 16,
+    width: "100%",
     // flexDirection: "row"
   },
   title: {
@@ -74,6 +80,7 @@ const styles = StyleSheet.create({
     color: "#293F51",
     fontWeight: "600",
     marginBottom: 4,
+    width: "64%",
   },
   description: {
     fontSize: 14,
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     opacity: 0.8,
     marginBottom: 8,
+    width: "64%",
   },
   avatarImage: {
     width: 32,
@@ -93,5 +101,12 @@ const styles = StyleSheet.create({
   userContainer: {
     flexDirection: "row",
     alignItems: "center",
+  },
+
+  oneContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: 140,
+    justifyContent: "flex-start",
   },
 });

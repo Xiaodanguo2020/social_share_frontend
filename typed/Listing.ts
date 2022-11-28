@@ -10,6 +10,9 @@ export type Listing = {
   category: CategoryType;
   order?: OrderType;
 };
+export interface EnrichedListing extends Listing {
+  requests: Request[];
+}
 
 export type UserType = {
   id: number;
@@ -58,8 +61,12 @@ export type Request = {
   start_date: Date;
   end_date: Date;
   categoryId: number;
-  listings: Listing[];
+  order?: OrderType;
 };
+
+export interface EnrichedRequest extends Request {
+  listings: Listing[];
+}
 
 export type MyRequests = {
   // listing: Listing;

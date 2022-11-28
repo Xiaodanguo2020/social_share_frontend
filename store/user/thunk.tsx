@@ -10,6 +10,7 @@ import {
   persistToken,
   tokenStillValid,
   getRequestsFromMe,
+  getListingsFromMe,
 } from "./slice";
 import { selectToken } from "./selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -54,6 +55,7 @@ export const getTokenfromStore =
         // console.log("this is the data from token", response.data);
         dispatch(tokenStillValid(response.data));
         dispatch(getRequestsFromMe(response.data.myRequests));
+        dispatch(getListingsFromMe(response.data.myListings));
         // console.log("this is my request data", response.data.myRequests);
         // console.log("this is my listing data", response.data.myListings);
       } else {

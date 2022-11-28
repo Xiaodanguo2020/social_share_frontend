@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
-import { UserType, MyRequests, Request } from "../../typed";
+import {
+  UserType,
+  MyRequests,
+  Request,
+  EnrichedRequest,
+  EnrichedListing,
+} from "../../typed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserState {
   token: string;
   userProfile: UserType;
   errorMessage: string;
-  myRequests: Request[];
+  myRequests: EnrichedRequest[];
+  myListings: EnrichedListing[];
 }
 
 const initialState: UserState = {
@@ -15,6 +22,7 @@ const initialState: UserState = {
   userProfile: {} as UserType,
   errorMessage: "",
   myRequests: [],
+  myListings: [],
 };
 
 // const storeData = async (state: UserState) => {
@@ -54,9 +62,14 @@ export const userSlice = createSlice({
       state.userProfile = action.payload;
     },
 
-    getRequestsFromMe: (state, action: PayloadAction<Request[]>) => {
+    getRequestsFromMe: (state, action: PayloadAction<EnrichedRequest[]>) => {
       // console.log("payload for user from me", action.payload);
       state.myRequests = action.payload;
+    },
+
+    getListingsFromMe: (state, action: PayloadAction<EnrichedListing[]>) => {
+      // console.log("payload for user from me", action.payload);
+      state.myListings = action.payload;
     },
 
     errorMessage: (state, action: PayloadAction<string>) => {
@@ -83,6 +96,7 @@ export const {
   errorMessage,
   logOut,
   getRequestsFromMe,
+  getListingsFromMe,
 } = userSlice.actions;
 
 export default userSlice.reducer;
