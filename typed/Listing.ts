@@ -8,6 +8,7 @@ export type Listing = {
   categoryId: number;
   user: UserType;
   category: CategoryType;
+  order?: OrderType;
 };
 
 export type UserType = {
@@ -30,4 +31,38 @@ export type CategoryType = {
 export type FormValues = {
   email: string;
   password: string;
+};
+
+export type RequestInputType = {
+  // title: string;
+  // description: string;
+  // image: string;
+  // active: boolean;
+  start_date: Date;
+  end_date: Date;
+  // categoryId: number;
+};
+
+export type OrderType = {
+  status: "created" | "accepted" | "cancelled";
+  requestId: number;
+  listingId: number;
+};
+
+export type Request = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  active: boolean;
+  start_date: Date;
+  end_date: Date;
+  categoryId: number;
+  listings: Listing[];
+};
+
+export type MyRequests = {
+  // listing: Listing;
+  // order: OrderType;
+  // user: UserType;
 };

@@ -9,6 +9,7 @@ import {
   loginSuccess,
   persistToken,
   tokenStillValid,
+  getRequestsFromMe,
 } from "./slice";
 import { selectToken } from "./selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -45,13 +46,16 @@ export const getTokenfromStore =
       const responseStoreToken = await AsyncStorage.getItem("token");
       if (responseStoreToken) {
         dispatch(persistToken(responseStoreToken));
-        console.log("this is the token from asynstore", responseStoreToken);
+        // console.log("this is the token from asynstore", responseStoreToken);
         const response = await axios.get(`${apiUrl}/auth/me`, {
           headers: { Authorization: `Bearer ${responseStoreToken}` },
         });
 
-        console.log("this is the data from token", response.data);
+        // console.log("this is the data from token", response.data);
         dispatch(tokenStillValid(response.data));
+        dispatch(getRequestsFromMe(response.data.myRequests));
+        // console.log("this is my request data", response.data.myRequests);
+        // console.log("this is my listing data", response.data.myListings);
       } else {
       }
     } catch (e: any) {

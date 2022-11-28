@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
-import { UserType } from "../../typed";
+import { UserType, MyRequests, Request } from "../../typed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserState {
   token: string;
   userProfile: UserType;
   errorMessage: string;
+  myRequests: Request[];
 }
 
 const initialState: UserState = {
   token: "",
   userProfile: {} as UserType,
   errorMessage: "",
+  myRequests: [],
 };
 
 // const storeData = async (state: UserState) => {
@@ -48,8 +50,13 @@ export const userSlice = createSlice({
     },
 
     tokenStillValid: (state, action: PayloadAction<UserType>) => {
-      console.log("token payload", action.payload);
+      // console.log("token payload", action.payload);
       state.userProfile = action.payload;
+    },
+
+    getRequestsFromMe: (state, action: PayloadAction<Request[]>) => {
+      // console.log("payload for user from me", action.payload);
+      state.myRequests = action.payload;
     },
 
     errorMessage: (state, action: PayloadAction<string>) => {
@@ -75,6 +82,7 @@ export const {
   tokenStillValid,
   errorMessage,
   logOut,
+  getRequestsFromMe,
 } = userSlice.actions;
 
 export default userSlice.reducer;

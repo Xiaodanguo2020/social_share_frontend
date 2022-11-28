@@ -24,9 +24,14 @@ export const listingSlice = createSlice({
     selectedListingFetched: (state, action: PayloadAction<Listing>) => {
       state.detailListing = { ...action.payload };
     },
+
+    clearSelectedListing: (state) => {
+      state.detailListing = {} as Listing;
+    },
   },
 });
 
-export const { listingFetched, selectedListingFetched } = listingSlice.actions;
+export const { listingFetched, selectedListingFetched, clearSelectedListing } =
+  listingSlice.actions;
 
 export default listingSlice.reducer;

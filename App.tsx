@@ -13,6 +13,7 @@ import { StackParamList } from "./typed";
 import { useAppDispatch } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
+import { UserDashboardPage } from "./pages/UserDashboardPage";
 
 // const Stack = createStackNavigator();
 
@@ -55,6 +56,7 @@ function App() {
         <Stack.Screen name="Listing" component={ListingPage} />
         <Stack.Screen name="Details" component={DetailsPage} />
         <Stack.Screen name="Login" component={LoginPage} />
+        <Stack.Screen name="UserDashboard" component={UserDashboardPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
