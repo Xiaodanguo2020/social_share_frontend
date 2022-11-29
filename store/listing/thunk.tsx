@@ -40,12 +40,17 @@ export const fetchOneListing =
   };
 
 export const createListingAndOrder =
-  ({ start_date, end_date }: RequestInputType, id: number) =>
+  (
+    { start_date, end_date, title, description }: RequestInputType,
+    id: number
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       const response = await axios.post<RequestInputType>(
         `${apiUrl}/listings/${id}/request`,
         {
+          title,
+          description,
           start_date,
           end_date,
         },

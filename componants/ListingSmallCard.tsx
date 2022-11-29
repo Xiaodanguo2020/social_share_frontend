@@ -29,9 +29,9 @@ export default function ListingSmallCard<FC>(props: { listing: Listing }) {
           <View style={styles.userContainer}>
             <Image
               style={styles.avatarImage}
-              source={{ uri: props.listing.user.image }}
+              source={{ uri: props.listing?.user?.image }}
             />
-            <Text style={styles.description}>{props.listing.user.name}</Text>
+            <Text style={styles.description}>{props.listing?.user?.name}</Text>
           </View>
           <Text numberOfLines={1} style={styles.title}>
             {props.listing.order?.status}
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     //     width: 2,
     //     height: 2,
     // },
-    margin: 8,
+    // margin: 8,
   },
   imageContainer: {
     // flex: 1,

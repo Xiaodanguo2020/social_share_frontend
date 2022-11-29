@@ -6,6 +6,7 @@ export type StackParamList = {
   Details: { id: number };
   Login: undefined;
   UserDashboard: undefined;
+  CameraTryOut: undefined;
 };
 
 // Helper from the library to generate Props Type (What is the Type of the props passing down in this component)

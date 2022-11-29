@@ -9,6 +9,7 @@ import {
   Modal,
   Alert,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -48,6 +49,8 @@ export function DetailsPage({ navigation, ...props }: any) {
   const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [start_date, setStart_date] = useState<Date>(new Date());
   const [end_date, setEnd_date] = useState<Date>(new Date());
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const userAddress = listingData.user
     ? `${listingData?.user.street_name} ${listingData?.user.house_nr} Amsterdam`
@@ -90,9 +93,7 @@ export function DetailsPage({ navigation, ...props }: any) {
             <View style={styles.userContainer}>
               <View style={styles.infoContainer}>
                 <Text style={styles.name}>{listingData.user.name}</Text>
-                <Text>
-                  {listingData.user.zip_code} {listingData.user.street_name}
-                </Text>
+                <Text>Amsterdam</Text>
               </View>
               <Image
                 style={styles.avatarImage}
@@ -152,6 +153,28 @@ export function DetailsPage({ navigation, ...props }: any) {
                 <UserInfo user={listingData.user}></UserInfo>
               </View>
             </View>
+            <View style={styles.inputContainer}>
+              <View>
+                <Text>title</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setTitle(text);
+                  }}
+                />
+              </View>
+              <View>
+                <Text>message</Text>
+                <TextInput
+                  multiline={true}
+                  numberOfLines={4}
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setDescription(text);
+                  }}
+                />
+              </View>
+            </View>
 
             <View style={styles.datePickerContainer}>
               <View>
@@ -172,7 +195,6 @@ export function DetailsPage({ navigation, ...props }: any) {
 
               <View>
                 <Text style={{ marginBottom: 8 }}>end_date</Text>
-
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={end_date || new Date()}
@@ -192,15 +214,17 @@ export function DetailsPage({ navigation, ...props }: any) {
               onPress={() => {
                 dispatch(
                   createListingAndOrder(
-                    { start_date, end_date },
+                    { title, description, start_date, end_date },
                     listingData.id
                   )
                 );
-                navigation.navigate("UserDashboard");
+                navigation.navigate("UserDashboard", {
+                  screen: "UserRequests",
+                });
                 setModalVisible(false);
               }}
             >
-              <Text style={styles.buttonText}> Request Now</Text>
+              <Text style={styles.buttonText}>Send request</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -235,7 +259,6 @@ const styles = StyleSheet.create({
     height: 240,
     resizeMode: "cover",
     backgroundColor: "blue",
-    marginBottom: 16,
     alignSelf: "center",
   },
   title: {
@@ -263,14 +286,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#293F51",
     fontWeight: "600",
-    marginBottom: 8,
+    marginBottom: 4,
   },
   userContainer: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
     justifyContent: "space-between",
-    paddingTop: 8,
     padding: 16,
   },
   infoContainer: {
@@ -321,13 +343,12 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: "white",
     borderRadius: 0,
-    paddingTop: 64,
-
+    paddingTop: 48,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 8,
     },
   },
   modalCloseIcon: {
@@ -358,5 +379,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     width: "100%",
     height: 64,
+  },
+  inputContainer: {
+    // flex: 1,
+    justifyContent: "center",
+
+    backgroundColor: "white",
+    width: "100%",
+  },
+  input: {
+    // borderWidth: 1,
+    backgroundColor: "rgba(41,63,81,0.1)",
+    // borderColor: "#293F51",
+    // borderStyle: "solid",
+    height: 40,
+    borderRadius: 4,
+    marginBottom: 16,
+    width: "100%",
   },
 });

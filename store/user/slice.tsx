@@ -10,7 +10,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserState {
-  token: string;
+  token: string | null;
   userProfile: UserType;
   errorMessage: string;
   myRequests: EnrichedRequest[];

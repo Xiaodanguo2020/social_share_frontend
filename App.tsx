@@ -13,7 +13,8 @@ import { StackParamList } from "./typed";
 import { useAppDispatch } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
-import { UserDashboardPage } from "./pages/UserDashboardPage";
+import { UserDashboardReqPage } from "./pages/UserDashboardReqPage";
+import { UserDashboardListingPage } from "./pages/UserDashboardListingPage";
 
 // const Stack = createStackNavigator();
 
@@ -44,6 +45,25 @@ const Tab = createBottomTabNavigator();
 //   );
 // }
 
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+const DashboardTab = createMaterialTopTabNavigator();
+
+function DashboardTabs() {
+  return (
+    <DashboardTab.Navigator>
+      <DashboardTab.Screen
+        name="UserRequests"
+        component={UserDashboardReqPage}
+      />
+      <DashboardTab.Screen
+        name="UserListings"
+        component={UserDashboardListingPage}
+      />
+    </DashboardTab.Navigator>
+  );
+}
+
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -53,10 +73,11 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="UserDashboard" component={UserDashboardPage} />
+        <Stack.Screen name="Login" component={LoginPage} />
+        <Stack.Screen name="UserDashboard" component={DashboardTabs} />
+
         <Stack.Screen name="Listing" component={ListingPage} />
         <Stack.Screen name="Details" component={DetailsPage} />
-        <Stack.Screen name="Login" component={LoginPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

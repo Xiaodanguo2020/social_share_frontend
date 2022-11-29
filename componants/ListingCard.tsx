@@ -31,7 +31,7 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
             style={styles.avatarImage}
             source={{ uri: props.listing.user.image }}
           />
-          <Text style={styles.description}>{props.listing.user.name}</Text>
+          <Text style={styles.name}>{props.listing.user.name}</Text>
         </View>
       </View>
     </View>
@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
     color: "#657D90",
     fontWeight: "400",
     opacity: 0.8,
+    marginBottom: 8,
+  },
+  name: {
+    fontSize: 14,
+    color: "#657D90",
+    fontWeight: "400",
     marginBottom: 8,
   },
   avatarImage: {

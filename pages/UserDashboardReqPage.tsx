@@ -6,10 +6,10 @@ import {
   selectMyRequest,
   selectUser,
 } from "../store/user/selector";
-import { EnrichedRequest, MyRequests, UserType } from "../typed";
+import { EnrichedRequest, UserType } from "../typed";
 import ListingSmallCard from "../componants/ListingSmallCard";
 
-export const UserDashboardPage = () => {
+export const UserDashboardReqPage = () => {
   const dispatch = useAppDispatch();
 
   const myRequestData: EnrichedRequest[] = useAppSelector(selectMyRequest);
@@ -20,9 +20,8 @@ export const UserDashboardPage = () => {
 
   return (
     <View>
-      <Text>
-        {" "}
-        My Request
+      <Text style={styles.title}>Welcome to your dashboard</Text>
+      <View>
         <View style={styles.userContainer}>
           <Image style={styles.avatarImage} source={{ uri: userData?.image }} />
           <View style={styles.infoContainer}>
@@ -33,7 +32,7 @@ export const UserDashboardPage = () => {
             <Text style={styles.description}></Text>
           </View>
         </View>
-      </Text>
+      </View>
       <ScrollView>
         {!myRequestData ? (
           <Text>loading...</Text>
@@ -44,7 +43,7 @@ export const UserDashboardPage = () => {
                 <Text style={styles.title}>{req.title}</Text>
                 {/* <Text>{req.start_date?.toISOString()}</Text>
                 <Text>{req.end_date?.toISOString()}</Text> */}
-                <Text>{`Dear neighbours, I will need this item for couple of days, thank you`}</Text>
+                <Text>{req.description}</Text>
                 {req?.listings?.map((listing) => (
                   <ListingSmallCard key={listing.id} listing={listing} />
                 ))}

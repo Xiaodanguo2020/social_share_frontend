@@ -106,7 +106,7 @@ export const LoginPage = ({ navigation }: { navigation: any }) => {
         // backgroundColor="#293F51"
         onPress={onSubmit}
       >
-        <Text style={styles.buttonText}> Login</Text>
+        <Text style={styles.buttonText}>Login</Text>
       </Pressable>
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>

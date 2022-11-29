@@ -43,6 +43,9 @@ export type RequestInputType = {
   // active: boolean;
   start_date: Date;
   end_date: Date;
+  title: string;
+  description: string;
+
   // categoryId: number;
 };
 
@@ -61,6 +64,7 @@ export type Request = {
   start_date: Date;
   end_date: Date;
   categoryId: number;
+  user: UserType;
   order?: OrderType;
 };
 
