@@ -53,7 +53,7 @@ export const getTokenfromStore =
         });
 
         // console.log("this is the data from token", response.data);
-        dispatch(tokenStillValid(response.data));
+        dispatch(tokenStillValid(response.data.user));
         dispatch(getRequestsFromMe(response.data.myRequests));
         dispatch(getListingsFromMe(response.data.myListings));
         // console.log("this is my request data", response.data.myRequests);
@@ -62,8 +62,11 @@ export const getTokenfromStore =
       }
     } catch (e: any) {
       console.log(e.message);
+      return await AsyncStorage.removeItem("token")
     }
   };
+
+
 
 // export const getUserWithStoredToken =
 //   () => async (dispatch: AppDispatch, getState: () => RootState) => {

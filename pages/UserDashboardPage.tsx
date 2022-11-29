@@ -14,9 +14,7 @@ export const UserDashboardPage = () => {
 
   const myRequestData: EnrichedRequest[] = useAppSelector(selectMyRequest);
   const myListingData = useAppSelector(selectMyListing);
-  const userData: UserType = useAppSelector(selectUser);
-
-  console.log("this is mylisting data", myListingData);
+  const userData= useAppSelector<UserType>(selectUser);
 
   return (
     <View>
@@ -40,7 +38,7 @@ export const UserDashboardPage = () => {
         ) : (
           myRequestData.map((req) => {
             return (
-              <View style={styles.cardContainer}>
+              <View key={req.id} style={styles.cardContainer}>
                 <Text style={styles.title}>{req.title}</Text>
                 {/* <Text>{req.start_date?.toISOString()}</Text>
                 <Text>{req.end_date?.toISOString()}</Text> */}

@@ -23,6 +23,7 @@ import { Circle } from "react-native-maps";
 import { clearSelectedListing } from "../store/listing/slice";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserInfo from "../componants/UserInfo";
+import { Screen } from "react-native-screens";
 
 //NOT IDEAL! -> the props definition
 export function DetailsPage({ navigation, ...props }: any) {
@@ -196,7 +197,7 @@ export function DetailsPage({ navigation, ...props }: any) {
                     listingData.id
                   )
                 );
-                navigation.navigate("UserDashboard");
+                navigation.navigate("User", { screen: "Request" });
                 setModalVisible(false);
               }}
             >
