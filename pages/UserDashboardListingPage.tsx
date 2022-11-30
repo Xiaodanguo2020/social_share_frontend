@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  StatusBar,
+} from "react-native";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   selectMyListing,
@@ -18,6 +25,12 @@ export const UserDashboardListingPage = () => {
 
   return (
     <ScrollView>
+      <StatusBar
+        animated={true}
+        backgroundColor="#61dafb"
+        barStyle={"default"}
+        showHideTransition={"fade"}
+      />
       {!myListingData ? (
         <Text>loading...</Text>
       ) : (
@@ -28,7 +41,7 @@ export const UserDashboardListingPage = () => {
               listing={{ ...list, user: userData }}
             />
             {list.requests.map((req) => (
-              <View style={styles.requestContainer}>
+              <View key={req.id} style={styles.requestContainer}>
                 <Text style={styles.title}>{req.title}</Text>
 
                 <View style={styles.userContainer}>

@@ -1,10 +1,15 @@
 import axios from "axios";
 import { apiUrl } from "../../config/constance";
 import { AnyAction } from "redux";
-import { Listing, RequestInputType } from "../../typed";
+import { CategoryType, Listing, RequestInputType } from "../../typed";
 import { ThunkAction } from "redux-thunk";
 import { RootState, AppDispatch } from "../index";
-import { listingFetched, selectedListingFetched } from "./slice";
+import {
+  categoriesFetched,
+  listingFetched,
+  selectedListingFetched,
+  listingAdded,
+} from "./slice";
 
 export const fetchListings =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -39,7 +44,7 @@ export const fetchOneListing =
     }
   };
 
-export const createListingAndOrder =
+export const createRequestAndOrder =
   (
     { start_date, end_date, title, description }: RequestInputType,
     id: number
@@ -67,3 +72,50 @@ export const createListingAndOrder =
     }
   };
 // console.log("this is my fetch", fetchOneListing(2));
+
+export const getCategories =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      const response = await axios.get<CategoryType[]>(`${apiUrl}/categories`);
+
+      dispatch(categoriesFetched(response.data));
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+
+type Boo = {
+  title: string;
+  description: string;
+  imageURI: string;
+  itemCategory: number;
+};
+
+export const createNewListing =
+  ({ title, description, imageURI, itemCategory }: Boo) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      console.log(
+        "things from my thunk",
+        title,
+        description,
+        imageURI,
+        itemCategory
+      );
+      const response = await axios.post<Listing>(
+        `${apiUrl}/listings`,
+        {
+          title: title,
+          description: description,
+          image: imageURI,
+          categoryId: itemCategory,
+        },
+        { headers: { Authorization: `Bearer ${getState().user.token}` } }
+      );
+      console.log("respons from created new lisitng", response.data);
+      dispatch(listingAdded(response.data));
+      dispatch(fetchListings());
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };

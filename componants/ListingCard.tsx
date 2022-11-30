@@ -15,7 +15,7 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: props.listing.image }} />
+        <Image style={styles.image} source={{ uri: props.listing?.image }} />
       </View>
       <View style={styles.bottomContainer}>
         <View>
@@ -29,9 +29,9 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
         <View style={styles.userContainer}>
           <Image
             style={styles.avatarImage}
-            source={{ uri: props.listing.user.image }}
+            source={{ uri: props.listing?.user?.image }}
           />
-          <Text style={styles.name}>{props.listing.user.name}</Text>
+          <Text style={styles.name}>{props.listing?.user?.name}</Text>
         </View>
       </View>
     </View>
@@ -41,30 +41,25 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
 const styles = StyleSheet.create({
   container: {
     width: 164,
-    height: 264,
+    height: 248,
     borderRadius: 8,
-    // shadowColor:"black",
-    // shadowOpacity:0.2,
-    // backgroundColor : "#0000",
-    // shadowOffset: {
-    //     width: 2,
-    //     height: 2,
-    // },
+    backgroundColor: "white",
     margin: 8,
+    shadowColor: "grey",
+    shadowOpacity: 0.1,
   },
-  imageContainer: {
-    flex: 1,
-  },
+  imageContainer: {},
   image: {
     width: 164,
-    height: 164,
+    height: 140,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     resizeMode: "cover",
     backgroundColor: "blue",
   },
   bottomContainer: {
-    // flexDirection: "row"
+    marginTop: 8,
+    padding: 8,
   },
   title: {
     fontSize: 14,

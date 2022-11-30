@@ -38,7 +38,7 @@ export const CameraTryOut = () => {
       Alert.alert("you did not select any image");
     }
 
-    console.log("this is the result", result);
+    // console.log("this is the result", result);
   };
 
   const pickCameraAsync = async () => {

@@ -8,3 +8,7 @@ export const selectListings = (reduxState: RootState) => {
 export const selectOneListing = (reduxState: RootState) => {
   return reduxState.listing.detailListing;
 };
+
+export const selectCategories = (reduxState: RootState) => {
+  return reduxState.listing.category;
+};

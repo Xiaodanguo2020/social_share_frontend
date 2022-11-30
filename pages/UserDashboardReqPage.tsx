@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   selectMyListing,
@@ -8,29 +15,36 @@ import {
 } from "../store/user/selector";
 import { EnrichedRequest, UserType } from "../typed";
 import ListingSmallCard from "../componants/ListingSmallCard";
+import { logOut } from "../store/user/slice";
 
-export const UserDashboardReqPage = () => {
+export const UserDashboardReqPage = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
 
   const myRequestData: EnrichedRequest[] = useAppSelector(selectMyRequest);
   const myListingData = useAppSelector(selectMyListing);
   const userData: UserType = useAppSelector(selectUser);
 
-  console.log("this is mylisting data", myListingData);
+  // console.log("this is mylisting data", myListingData);
 
   return (
     <View>
-      <Text style={styles.title}>Welcome to your dashboard</Text>
       <View>
         <View style={styles.userContainer}>
           <Image style={styles.avatarImage} source={{ uri: userData?.image }} />
           <View style={styles.infoContainer}>
             <Text style={styles.name}>{userData?.name}</Text>
-            <Text>
-              {userData?.zip_code} {userData?.street_name}
-            </Text>
+            <Text>Amsterdam</Text>
             <Text style={styles.description}></Text>
           </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              dispatch(logOut());
+              navigation.navigate("Login");
+            }}
+          >
+            <Text>LogOut</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView>
@@ -117,5 +131,17 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "column",
     alignItems: "flex-start",
+  },
+  button: {
+    alignItems: "center",
+    // backgroundColor: "#293F51",
+    height: 40,
+    justifyContent: "center",
+    color: "white",
+    borderRadius: 4,
+    width: 88,
+    borderColor: "#293F51",
+    borderWidth: 1,
+    margin: 8,
   },
 });

@@ -13,8 +13,8 @@ const placeholderImg = {
   uri: "https://www.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",
 };
 
-export default function ImagePickers() {
-  const [image, setImage] = useState<any | null>(null);
+export default function ImagePickers(props: any) {
+  // const [image, setImage] = useState<any | null>(null);
   const [requestPermission, setRequestPermittion] =
     ImagePicker.useCameraPermissions();
 
@@ -32,7 +32,7 @@ export default function ImagePickers() {
         }
       );
       const file = await response.json();
-      setImage({ uri: file.secure_url });
+      props.setImage({ uri: file.secure_url });
     } catch (e) {
       console.log(e);
     }
@@ -70,7 +70,7 @@ export default function ImagePickers() {
     }
   };
 
-  const imageSource = image !== null ? image : placeholderImg;
+  const imageSource = props.image !== null ? props.image : placeholderImg;
 
   return (
     <View style={styles.container}>

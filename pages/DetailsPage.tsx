@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { fetchOneListing, createListingAndOrder } from "../store/listing/thunk";
+import { fetchOneListing, createRequestAndOrder } from "../store/listing/thunk";
 import { Props } from "../typed";
 import { useEffect, useState } from "react";
 import { selectOneListing } from "../store/listing/selector";
@@ -166,8 +166,8 @@ export function DetailsPage({ navigation, ...props }: any) {
               <View>
                 <Text>message</Text>
                 <TextInput
-                  multiline={true}
-                  numberOfLines={4}
+                  // multiline={true}
+                  // numberOfLines={2}
                   style={styles.input}
                   onChangeText={(text) => {
                     setDescription(text);
@@ -213,7 +213,7 @@ export function DetailsPage({ navigation, ...props }: any) {
               style={styles.modalButton}
               onPress={() => {
                 dispatch(
-                  createListingAndOrder(
+                  createRequestAndOrder(
                     { title, description, start_date, end_date },
                     listingData.id
                   )

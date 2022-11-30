@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { fetchListings } from "../store/listing/thunk";
+import {
+  fetchListings,
+  getCategories,
+  createNewListing,
+} from "../store/listing/thunk";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { selectListings } from "../store/listing/selector";
-import { logOut } from "../store/user/slice";
-import { Listing } from "../typed";
+import { selectListings, selectCategories } from "../store/listing/selector";
+
+import { CategoryType, Listing } from "../typed";
 import {
   StyleSheet,
   Text,
@@ -13,6 +17,7 @@ import {
   Modal,
   Alert,
   TextInput,
+  StatusBar,
 } from "react-native";
 import ListingCard from "../componants/ListingCard";
 import { Picker } from "@react-native-picker/picker";
@@ -28,28 +33,44 @@ export function ListingPage({ navigation }: { navigation: any }) {
   const dispatch = useAppDispatch();
 
   const listingData: Listing[] = useAppSelector(selectListings);
+  const categoryData: CategoryType[] = useAppSelector(selectCategories);
 
+  console.log(categoryData, "dategory");
+
+  const [image, setImage] = useState<any | null>(null);
   const [filterCat, setFilterCat] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [itemCategory, selectItemCategory] = useState<number>(0);
 
-  const categoriesFromListing: string[] = [
-    ...new Set(
-      listingData.map((list) => {
-        return list.category.category;
-      })
-    ),
-  ];
+  const imageURI = image?.uri;
+
+  // const categoriesFromListing: string[] = [
+  //   ...new Set(
+  //     listingData.map((list) => {
+  //       return list.category.category;
+  //     })
+  //   ),
+  // ];
 
   // console.log(categoriesFromListing);
 
-  const changeCategoryFilter = (value: string) => {
-    setFilterCat(value);
+  // const changeCategoryFilter = (value: string) => {
+  //   setFilterCat(value);
+  // };
+
+  const changeItemCategory = (value: number) => {
+    selectItemCategory(value);
   };
 
   useEffect(() => {
     dispatch(fetchListings());
+    // dispatch(getTokenfromStore());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getCategories());
     // dispatch(getTokenfromStore());
   }, [dispatch]);
 
@@ -67,8 +88,14 @@ export function ListingPage({ navigation }: { navigation: any }) {
 
   return (
     <View>
+      <StatusBar
+        animated={true}
+        backgroundColor="#61dafb"
+        barStyle={"default"}
+        showHideTransition={"fade"}
+      />
       <ScrollView>
-        <Picker
+        {/* <Picker
           itemStyle={{ height: 72 }}
           selectedValue={filterCat}
           onValueChange={changeCategoryFilter}
@@ -76,7 +103,7 @@ export function ListingPage({ navigation }: { navigation: any }) {
           {["Filter all", ...categoriesFromListing].map((cat) => {
             return <Picker.Item key={cat} label={cat} value={cat} />;
           })}
-        </Picker>
+        </Picker> */}
         {!filterListingData ? (
           <Text>loading</Text>
         ) : (
@@ -95,16 +122,6 @@ export function ListingPage({ navigation }: { navigation: any }) {
             })}
           </View>
         )}
-
-        <TouchableOpacity
-          style={styles.logOutContainer}
-          onPress={() => {
-            dispatch(logOut());
-            navigation.navigate("CameraTryOut");
-          }}
-        >
-          <Text>Go to Camera page</Text>
-        </TouchableOpacity>
       </ScrollView>
       <View>
         <Modal
@@ -128,7 +145,7 @@ export function ListingPage({ navigation }: { navigation: any }) {
               Listing item to share with your neigbours
             </Text>
             <View>
-              <ImagePickers />
+              <ImagePickers setImage={setImage} image={image} />
             </View>
             <View style={styles.inputContainer}>
               <View>
@@ -143,8 +160,8 @@ export function ListingPage({ navigation }: { navigation: any }) {
               <View>
                 <Text>description</Text>
                 <TextInput
-                  multiline={true}
-                  numberOfLines={4}
+                  // multiline={true}
+                  // numberOfLines={2}
                   style={styles.multilineInput}
                   onChangeText={(text) => {
                     setDescription(text);
@@ -153,10 +170,40 @@ export function ListingPage({ navigation }: { navigation: any }) {
               </View>
             </View>
           </View>
+          <View style={styles.selectContainer}>
+            <Text>Select category for your item</Text>
+            <Picker
+              itemStyle={{ height: 120, fontSize: 16 }}
+              selectedValue={itemCategory}
+              onValueChange={changeItemCategory}
+            >
+              {categoryData.map((cat) => {
+                return (
+                  <Picker.Item
+                    key={cat.id}
+                    label={cat.category}
+                    value={cat.id}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setModalVisible(false);
+              dispatch(
+                createNewListing({ title, description, imageURI, itemCategory })
+              );
+              console.log("did it come here");
+            }}
+          >
+            <Text style={styles.buttonText}>Add now</Text>
+          </TouchableOpacity>
         </Modal>
       </View>
       <TouchableOpacity
-        style={styles.button}
+        style={styles.floatingButton}
         onPress={() => {
           setModalVisible(true);
         }}
@@ -178,7 +225,7 @@ const styles = StyleSheet.create({
   logOutContainer: {
     height: 40,
   },
-  button: {
+  floatingButton: {
     position: "absolute",
     bottom: 32,
     alignSelf: "center",
@@ -206,9 +253,10 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: "white",
     borderRadius: 0,
-    paddingTop: 64,
+    paddingTop: 32,
     widt: "100%",
-    height: 200,
+
+    // flexDirection: "row",
 
     alignItems: "center",
     shadowColor: "#000",
@@ -252,9 +300,26 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(41,63,81,0.1)",
     // borderColor: "#293F51",
     // borderStyle: "solid",
-    height: 80,
+    height: 48,
     borderRadius: 4,
-    marginBottom: 16,
     width: "100%",
+  },
+  selectContainer: {
+    // backgroundColor: "rgba(41,63,81,0.1)",
+    paddingleft: 16,
+    margin: 24,
+    marginTop: 0,
+  },
+  button: {
+    width: 180,
+    marginTop: 8,
+    alignItems: "center",
+    backgroundColor: "#293F51",
+    height: 48,
+    justifyContent: "center",
+    color: "white",
+    borderRadius: 4,
+    alignSelf: "flex-end",
+    margin: 16,
   },
 });
