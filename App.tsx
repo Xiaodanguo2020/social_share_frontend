@@ -15,6 +15,9 @@ import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
 import { UserDashboardReqPage } from "./pages/UserDashboardReqPage";
 import { UserDashboardListingPage } from "./pages/UserDashboardListingPage";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // const Stack = createStackNavigator();
 
@@ -29,23 +32,45 @@ const AppWrapper = () => {
   );
 };
 
-const Tab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
-// function MyTabs() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         tabBarStyle: { position: "absolute" },
-//       }}
-//     >
-//       <Tab.Screen name="Listing" component={ListingPage} />
-//       <Tab.Screen name="Details" component={DetailsPage} />
-//       <Tab.Screen name="Add" component={AddNewPage} />
-//     </Tab.Navigator>
-//   );
-// }
-
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+function BottomTabs() {
+  return (
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <BottomTab.Screen
+        name="ListingRoot"
+        component={ListingStacks}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="cleaning-services" size={24} color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="RequestRoot"
+        component={ListingStacks}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="home-repair-service" size={24} color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="User"
+        component={DashboardTabs}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="house-user" size={24} color={color} />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+}
 
 const DashboardTab = createMaterialTopTabNavigator();
 
@@ -64,21 +89,46 @@ function DashboardTabs() {
   );
 }
 
+const RootStack = createStackNavigator();
+
+function RootStacks() {
+  return (
+    <RootStack.Navigator>
+      <RootStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Main"
+        component={BottomTabs}
+      />
+      <RootStack.Screen name="Login" component={LoginPage} />
+    </RootStack.Navigator>
+  );
+}
+
+const ListingStack = createStackNavigator<StackParamList>();
+function ListingStacks() {
+  return (
+    <ListingStack.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+      }}
+    >
+      <ListingStack.Screen name="Listing" component={ListingPage} />
+      <ListingStack.Screen name="Details" component={DetailsPage} />
+    </ListingStack.Navigator>
+  );
+}
+
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTokenfromStore());
-  }, [dispatch]);
+  }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="UserDashboard" component={DashboardTabs} />
-
-        <Stack.Screen name="Listing" component={ListingPage} />
-        <Stack.Screen name="Details" component={DetailsPage} />
-      </Stack.Navigator>
+      <RootStacks />
     </NavigationContainer>
   );
 }

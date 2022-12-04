@@ -16,6 +16,7 @@ import {
 import { EnrichedRequest, UserType } from "../typed";
 import ListingSmallCard from "../componants/ListingSmallCard";
 import { logOut } from "../store/user/slice";
+import moment from "moment";
 
 export const UserDashboardReqPage = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
@@ -53,14 +54,31 @@ export const UserDashboardReqPage = ({ navigation }: { navigation: any }) => {
         ) : (
           myRequestData.map((req) => {
             return (
-              <View style={styles.cardContainer}>
-                <Text style={styles.title}>{req.title}</Text>
-                {/* <Text>{req.start_date?.toISOString()}</Text>
-                <Text>{req.end_date?.toISOString()}</Text> */}
-                <Text>{req.description}</Text>
+              <View key={req.id} style={styles.cardContainer}>
                 {req?.listings?.map((listing) => (
-                  <ListingSmallCard key={listing.id} listing={listing} />
+                  <View>
+                    <ListingSmallCard key={listing.id} listing={listing} />
+                    {listing?.order?.status === "accepted" ? (
+                      <Text style={{ color: "blue" }}>
+                        {listing.user.street_name} {listing.user.house_nr}{" "}
+                        {listing.user.zip_code} phone: 0031566799
+                      </Text>
+                    ) : (
+                      <Text></Text>
+                    )}
+                  </View>
                 ))}
+
+                <View style={styles.dateContainer}>
+                  <Text style={styles.description}>
+                    start {moment(req.start_date).format("DD-MM-YY")}
+                  </Text>
+                  <Text style={styles.description}>
+                    end {moment(req.end_date).format("DD-MM-YY")}
+                  </Text>
+                </View>
+                <Text style={styles.title}>{req.title}</Text>
+                <Text>{req.description}</Text>
               </View>
             );
 
@@ -95,7 +113,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: "flex-start",
-    fontSize: 18,
+    fontSize: 14,
     color: "#293F51",
     fontWeight: "600",
     marginBottom: 12,
@@ -143,5 +161,10 @@ const styles = StyleSheet.create({
     borderColor: "#293F51",
     borderWidth: 1,
     margin: 8,
+  },
+  dateContainer: {
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    // flexDirection: "row",
   },
 });

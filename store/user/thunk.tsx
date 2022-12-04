@@ -29,6 +29,11 @@ export const login = ({ email, password }: FormValues) => {
           userProfile: response.data.user,
         })
       );
+      const responseMe = await axios.get(`${apiUrl}/auth/me`, {
+        headers: { Authorization: `Bearer ${response.data.token}` },
+      });
+      dispatch(getRequestsFromMe(responseMe.data.myRequests));
+      dispatch(getListingsFromMe(responseMe.data.myListings));
       //   console.log("this is the response from the  backend", response.data);
     } catch (error: any) {
       if (error.response) {
@@ -51,6 +56,8 @@ export const getTokenfromStore =
         const response = await axios.get(`${apiUrl}/auth/me`, {
           headers: { Authorization: `Bearer ${responseStoreToken}` },
         });
+        // console.log("response from me", response.data);
+        console.log("token", responseStoreToken);
 
         // console.log("this is the data from token", response.data);
         dispatch(tokenStillValid(response.data.user));

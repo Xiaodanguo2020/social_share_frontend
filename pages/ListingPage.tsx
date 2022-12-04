@@ -35,8 +35,6 @@ export function ListingPage({ navigation }: { navigation: any }) {
   const listingData: Listing[] = useAppSelector(selectListings);
   const categoryData: CategoryType[] = useAppSelector(selectCategories);
 
-  console.log(categoryData, "dategory");
-
   const [image, setImage] = useState<any | null>(null);
   const [filterCat, setFilterCat] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
@@ -195,7 +193,7 @@ export function ListingPage({ navigation }: { navigation: any }) {
               dispatch(
                 createNewListing({ title, description, imageURI, itemCategory })
               );
-              console.log("did it come here");
+              // console.log("did it come here");
             }}
           >
             <Text style={styles.buttonText}>Add now</Text>
@@ -220,14 +218,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    maxWidth: "100%",
+    //
+    marginLeft: 8,
   },
   logOutContainer: {
     height: 40,
   },
   floatingButton: {
     position: "absolute",
-    bottom: 32,
+    bottom: 24,
     alignSelf: "center",
     width: 144,
     alignItems: "center",

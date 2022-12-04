@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchOneListing, createRequestAndOrder } from "../store/listing/thunk";
 import { Props } from "../typed";
 import { useEffect, useState } from "react";
-import { selectOneListing } from "../store/listing/selector";
+import { selectListings, selectOneListing } from "../store/listing/selector";
 import { Listing } from "../typed";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
@@ -24,6 +24,7 @@ import { Circle } from "react-native-maps";
 import { clearSelectedListing } from "../store/listing/slice";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserInfo from "../componants/UserInfo";
+import ListingCard from "../componants/ListingCard";
 
 //NOT IDEAL! -> the props definition
 export function DetailsPage({ navigation, ...props }: any) {
@@ -31,6 +32,13 @@ export function DetailsPage({ navigation, ...props }: any) {
   const id = props.route.params.id;
 
   const listingData: Listing = useAppSelector(selectOneListing);
+  const allListingsData: Listing[] = useAppSelector(selectListings);
+
+  const relevantListings = allListingsData.filter((list) => {
+    return (
+      list.categoryId === listingData.categoryId && list.id !== listingData.id
+    );
+  });
 
   useEffect(() => {
     dispatch(fetchOneListing(id));
@@ -124,11 +132,24 @@ export function DetailsPage({ navigation, ...props }: any) {
             </View>
           </View>
         )}
+
+        <View style={{ marginBottom: 32 }}>
+          <Text style={styles.title}>Relevant Listings</Text>
+          {!relevantListings ? (
+            <Text>"loading...</Text>
+          ) : (
+            <View style={styles.relevantContainer}>
+              {relevantListings.map((list) => {
+                return <ListingCard key={list.id} listing={list} />;
+              })}
+            </View>
+          )}
+        </View>
       </ScrollView>
       <View style={{ backgroundColor: "rgba(0,0,0,0.9)" }}>
         <Modal
           animationType="slide"
-          transparent={true}
+          transparent={false}
           visible={modalVisible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed");
@@ -168,7 +189,7 @@ export function DetailsPage({ navigation, ...props }: any) {
                 <TextInput
                   // multiline={true}
                   // numberOfLines={2}
-                  style={styles.input}
+                  style={styles.multiInput}
                   onChangeText={(text) => {
                     setDescription(text);
                   }}
@@ -218,8 +239,8 @@ export function DetailsPage({ navigation, ...props }: any) {
                     listingData.id
                   )
                 );
-                navigation.navigate("UserDashboard", {
-                  screen: "UserRequests",
+                navigation.navigate("Main", {
+                  tab: "UserDashboard",
                 });
                 setModalVisible(false);
               }}
@@ -246,6 +267,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    marginBottom: 40,
     // paddingLeft: 24,
     // paddingRight: 24,
   },
@@ -256,10 +278,11 @@ const styles = StyleSheet.create({
 
   image: {
     width: 340,
-    height: 240,
+    height: 300,
     resizeMode: "cover",
     backgroundColor: "blue",
     alignSelf: "center",
+    marginBottom: 16,
   },
   title: {
     alignSelf: "flex-start",
@@ -396,5 +419,23 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 16,
     width: "100%",
+  },
+  multiInput: {
+    // borderWidth: 1,
+    backgroundColor: "rgba(41,63,81,0.1)",
+    // borderColor: "#293F51",
+    // borderStyle: "solid",
+    height: 80,
+    borderRadius: 4,
+    marginBottom: 16,
+    width: "100%",
+  },
+  relevantContainer: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    maxWidth: "100%",
+    marginLeft: 8,
   },
 });

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 8,
     shadowColor: "grey",
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
   },
   imageContainer: {},
   image: {

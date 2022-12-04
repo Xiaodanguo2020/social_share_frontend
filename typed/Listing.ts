@@ -50,10 +50,12 @@ export type RequestInputType = {
 };
 
 export type OrderType = {
-  status: "created" | "accepted" | "cancelled";
+  status: Status;
   requestId: number;
   listingId: number;
 };
+
+export type Status = "created" | "accepted" | "rejected";
 
 export type Request = {
   id: number;

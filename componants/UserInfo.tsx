@@ -14,7 +14,9 @@ export default function UserInfo({ user }: { user: UserType }) {
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{user.name}</Text>
         <Text>
-          {user.zip_code} {user.street_name}
+          {" "}
+          Amsterdam, Netherlands
+          {/* {user.zip_code} {user.street_name} */}
         </Text>
       </View>
     </View>

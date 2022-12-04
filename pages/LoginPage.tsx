@@ -64,7 +64,7 @@ export const LoginPage = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     if (token) {
-      navigation.navigate("Listing");
+      navigation.navigate("Main");
       //   console.log(token, "this is the best feeling in the world");
     }
   }, [token]);

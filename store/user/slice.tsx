@@ -78,7 +78,7 @@ export const userSlice = createSlice({
     },
 
     logOut: (state, action: PayloadAction<undefined>) => {
-      console.log("logout");
+      // console.log("logout");
       try {
         AsyncStorage.removeItem("token");
         state.token = "";

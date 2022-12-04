@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../../config/constance";
 import { AnyAction } from "redux";
-import { CategoryType, Listing, RequestInputType } from "../../typed";
+import { CategoryType, Listing, RequestInputType, Status } from "../../typed";
 import { ThunkAction } from "redux-thunk";
 import { RootState, AppDispatch } from "../index";
 import {
@@ -10,6 +10,8 @@ import {
   selectedListingFetched,
   listingAdded,
 } from "./slice";
+import { getTokenfromStore } from "../user/thunk";
+import { getListingsFromMe, tokenStillValid } from "../user/slice";
 
 export const fetchListings =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -61,6 +63,7 @@ export const createRequestAndOrder =
         },
         { headers: { Authorization: `Bearer ${getState().user.token}` } }
       );
+      dispatch(getTokenfromStore());
       // console.log("this is in my redux store", getState());
       // console.log("this is response from the thunk", response.data);
     } catch (error: any) {
@@ -84,7 +87,7 @@ export const getCategories =
     }
   };
 
-type Boo = {
+type inputType = {
   title: string;
   description: string;
   imageURI: string;
@@ -92,7 +95,7 @@ type Boo = {
 };
 
 export const createNewListing =
-  ({ title, description, imageURI, itemCategory }: Boo) =>
+  ({ title, description, imageURI, itemCategory }: inputType) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       console.log(
@@ -112,10 +115,30 @@ export const createNewListing =
         },
         { headers: { Authorization: `Bearer ${getState().user.token}` } }
       );
-      console.log("respons from created new lisitng", response.data);
+      // console.log("respons from created new lisitng", response.data);
       dispatch(listingAdded(response.data));
       dispatch(fetchListings());
     } catch (e: any) {
       console.log(e.message);
+    }
+  };
+
+export const updateOrderStatus =
+  (listingId: number, requestId: number, status: Status) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      const response = await axios.patch(
+        `${apiUrl}/listings/${listingId}/requests/${requestId}`,
+        {
+          status,
+        },
+        { headers: { Authorization: `Bearer ${getState().user.token}` } }
+      );
+      // console.log("did it come here");
+      // console.log("listing", listingId);
+      console.log("response from update order status", response);
+      dispatch(getTokenfromStore());
+    } catch (e) {
+      console.log(e);
     }
   };
