@@ -6,7 +6,6 @@ import {
 } from "../store/listing/thunk";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectListings, selectCategories } from "../store/listing/selector";
-
 import { CategoryType, Listing } from "../typed";
 import {
   StyleSheet,
@@ -44,19 +43,19 @@ export function ListingPage({ navigation }: { navigation: any }) {
 
   const imageURI = image?.uri;
 
-  // const categoriesFromListing: string[] = [
-  //   ...new Set(
-  //     listingData.map((list) => {
-  //       return list.category.category;
-  //     })
-  //   ),
-  // ];
+  const categoriesFromListing: string[] = [
+    ...new Set(
+      listingData.map((list) => {
+        return list.category?.category;
+      })
+    ),
+  ];
 
   // console.log(categoriesFromListing);
 
-  // const changeCategoryFilter = (value: string) => {
-  //   setFilterCat(value);
-  // };
+  const changeCategoryFilter = (value: string) => {
+    setFilterCat(value);
+  };
 
   const changeItemCategory = (value: number) => {
     selectItemCategory(value);
@@ -73,7 +72,7 @@ export function ListingPage({ navigation }: { navigation: any }) {
   }, [dispatch]);
 
   const filterListingData = listingData?.filter((listing) => {
-    if (filterCat === "" || filterCat === "Filter all") {
+    if (filterCat === "" || filterCat === "All") {
       return true;
     } else if (listing.category.category === filterCat) {
       return true;
@@ -93,6 +92,14 @@ export function ListingPage({ navigation }: { navigation: any }) {
         showHideTransition={"fade"}
       />
       <ScrollView>
+        <TouchableOpacity
+          // style={styles.buton}
+          onPress={() => {
+            navigation.navigate("MapView");
+          }}
+        >
+          <Text>Go To Map View</Text>
+        </TouchableOpacity>
         {/* <Picker
           itemStyle={{ height: 72 }}
           selectedValue={filterCat}
@@ -102,6 +109,37 @@ export function ListingPage({ navigation }: { navigation: any }) {
             return <Picker.Item key={cat} label={cat} value={cat} />;
           })}
         </Picker> */}
+        <ScrollView horizontal>
+          <View style={styles.filterContainer}>
+            {["All", ...categoriesFromListing].map((cat, index) => {
+              return (
+                <View key={index}>
+                  <TouchableOpacity
+                    key={index}
+                    style={
+                      cat === filterCat
+                        ? styles.filterTabActive
+                        : styles.filterTabInactive
+                    }
+                    onPress={() => {
+                      setFilterCat(cat);
+                    }}
+                  >
+                    <Text
+                      style={
+                        cat === filterCat
+                          ? styles.textFilterTabActive
+                          : styles.textFilterTabInactive
+                      }
+                    >
+                      {cat}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
         {!filterListingData ? (
           <Text>loading</Text>
         ) : (
@@ -230,7 +268,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 144,
     alignItems: "center",
-    backgroundColor: "blue",
+    backgroundColor: "#F67C60",
     height: 48,
     justifyContent: "center",
     color: "white",
@@ -320,5 +358,33 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignSelf: "flex-end",
     margin: 16,
+  },
+  filterTabActive: {
+    backgroundColor: "#F67C60",
+    padding: 8,
+    borderRadius: 16,
+    margin: 4,
+  },
+  filterTabInactive: {
+    borderColor: "#F67C60",
+    backgroundColor: "white",
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 16,
+    margin: 4,
+  },
+  textFilterTabInactive: {
+    color: "#F67C60",
+    fontWeight: "500",
+  },
+  textFilterTabActive: {
+    color: "white",
+    fontWeight: "500",
+  },
+  filterContainer: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    margin: 8,
   },
 });

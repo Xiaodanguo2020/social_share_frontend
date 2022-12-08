@@ -56,12 +56,13 @@ export const UserDashboardReqPage = ({ navigation }: { navigation: any }) => {
             return (
               <View key={req.id} style={styles.cardContainer}>
                 {req?.listings?.map((listing) => (
-                  <View>
-                    <ListingSmallCard key={listing.id} listing={listing} />
+                  <View key={listing.id}>
+                    <ListingSmallCard listing={listing} />
                     {listing?.order?.status === "accepted" ? (
                       <Text style={{ color: "blue" }}>
-                        {listing.user.street_name} {listing.user.house_nr}{" "}
-                        {listing.user.zip_code} phone: 0031566799
+                        Address: {listing.user.street_name}{" "}
+                        {listing.user.house_nr},Amsterdam
+                        {listing.user.zip_code} Tel: 0031566799
                       </Text>
                     ) : (
                       <Text></Text>

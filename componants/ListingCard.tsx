@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { listingFetched } from "../store/listing/slice";
-
+import { StyleSheet, Text, View, Image } from "react-native";
 import { Listing } from "../typed";
 
 export default function ListingCard<FC>(props: { listing: Listing }) {

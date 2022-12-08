@@ -24,6 +24,8 @@ export type UserType = {
   street_name: string;
   house_nr: number;
   image: string;
+  latitude: number;
+  longitude: number;
 };
 
 export type CategoryType = {

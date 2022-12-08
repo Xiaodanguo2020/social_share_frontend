@@ -136,7 +136,7 @@ export const updateOrderStatus =
       );
       // console.log("did it come here");
       // console.log("listing", listingId);
-      console.log("response from update order status", response);
+      // console.log("response from update order status", response);
       dispatch(getTokenfromStore());
     } catch (e) {
       console.log(e);

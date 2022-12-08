@@ -78,8 +78,8 @@ export const UserDashboardListingPage = () => {
                 <Text style={styles.description}>{req.description}</Text>
                 {req?.order?.status === "accepted" ? (
                   <Text style={{ color: "blue" }}>
-                    {req.user.street_name} {req.user.house_nr}{" "}
-                    {req.user.zip_code} phone: 0031566799
+                    Address: {req.user.street_name} {req.user.house_nr}{" "}
+                    {req.user.zip_code} Tel: 003156679989
                   </Text>
                 ) : (
                   <Text></Text>

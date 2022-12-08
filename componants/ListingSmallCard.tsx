@@ -45,20 +45,22 @@ export default function ListingSmallCard<FC>(props: { listing: Listing }) {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    width: 350,
+    width: 310,
     height: 120,
     borderRadius: 8,
+    padding: 8,
 
     flexDirection: "row",
     alignItems: "center",
     // shadowColor:"black",
     // shadowOpacity:0.2,
-    // backgroundColor : "#0000",
+    // backgroundColor: "rgba(41,63,81,0.05)",
+    backgroundColor: "white",
     // shadowOffset: {
     //     width: 2,
     //     height: 2,
     // },
-    // margin: 8,
+    // margin: 4,
   },
   imageContainer: {
     // flex: 1,

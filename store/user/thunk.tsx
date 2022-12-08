@@ -57,7 +57,7 @@ export const getTokenfromStore =
           headers: { Authorization: `Bearer ${responseStoreToken}` },
         });
         // console.log("response from me", response.data);
-        console.log("token", responseStoreToken);
+        // console.log("token", responseStoreToken);
 
         // console.log("this is the data from token", response.data);
         dispatch(tokenStillValid(response.data.user));
