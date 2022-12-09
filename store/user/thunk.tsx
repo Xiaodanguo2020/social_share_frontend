@@ -11,10 +11,12 @@ import {
   tokenStillValid,
   getRequestsFromMe,
   getListingsFromMe,
+  clearToken,
 } from "./slice";
 import { selectToken } from "./selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FormValues } from "../../typed";
+import { setHasValidToken } from "../appState/slice";
 
 export const login = ({ email, password }: FormValues) => {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -57,12 +59,15 @@ export const getTokenfromStore =
           headers: { Authorization: `Bearer ${responseStoreToken}` },
         });
         // console.log("response from me", response.data);
-        console.log("token", responseStoreToken);
+        if (response.status <= 400) {
+          dispatch(tokenStillValid(response.data.user));
+          dispatch(getRequestsFromMe(response.data.myRequests));
+          dispatch(getListingsFromMe(response.data.myListings));
+        }
+
 
         // console.log("this is the data from token", response.data);
-        dispatch(tokenStillValid(response.data.user));
-        dispatch(getRequestsFromMe(response.data.myRequests));
-        dispatch(getListingsFromMe(response.data.myListings));
+
         // console.log("this is my request data", response.data.myRequests);
         // console.log("this is my listing data", response.data.myListings);
       } else {
@@ -70,6 +75,8 @@ export const getTokenfromStore =
     } catch (e: any) {
       console.log(e.message);
       AsyncStorage.removeItem("token");
+      dispatch(clearToken())
+      dispatch(setHasValidToken(false))
     }
   };
 

@@ -56,7 +56,7 @@ export const UserDashboardReqPage = ({ navigation }: { navigation: any }) => {
             return (
               <View key={req.id} style={styles.cardContainer}>
                 {req?.listings?.map((listing) => (
-                  <View>
+                  <View key={listing.id}>
                     <ListingSmallCard key={listing.id} listing={listing} />
                     {listing?.order?.status === "accepted" ? (
                       <Text style={{ color: "blue" }}>

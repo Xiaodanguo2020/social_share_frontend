@@ -24,13 +24,11 @@ import { Picker } from "@react-native-picker/picker";
 import { getTokenfromStore } from "../store/user/thunk";
 import { AntDesign } from "@expo/vector-icons";
 import ImagePickers from "../componants/ImagePickers";
+import { selectSocket } from "../store/appState/selector";
 
 export function ListingPage({ navigation }: { navigation: any }) {
-  // useEffect(() => {
-  //   const dispatch = useAppDispatch();
-  //   dispatch(getTokenfromStore());
-  // }, []);
   const dispatch = useAppDispatch();
+  const socket = useAppSelector(selectSocket)
 
   const listingData: Listing[] = useAppSelector(selectListings);
   const categoryData: CategoryType[] = useAppSelector(selectCategories);
@@ -64,7 +62,11 @@ export function ListingPage({ navigation }: { navigation: any }) {
 
   useEffect(() => {
     dispatch(fetchListings());
-    // dispatch(getTokenfromStore());
+    if(socket) {
+      socket.onAny((event, ...args) => {
+        console.log(event, args)
+      })
+    }
   }, [dispatch]);
 
   useEffect(() => {

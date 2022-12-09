@@ -57,6 +57,10 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
 
+    clearToken: (state) => {
+      state.token = ""
+    },
+
     tokenStillValid: (state, action: PayloadAction<UserType>) => {
       // console.log("token payload", action.payload);
       state.userProfile = action.payload;
@@ -92,6 +96,7 @@ export const userSlice = createSlice({
 export const {
   loginSuccess,
   persistToken,
+  clearToken,
   tokenStillValid,
   errorMessage,
   logOut,

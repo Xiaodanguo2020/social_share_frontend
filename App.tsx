@@ -8,21 +8,19 @@ import store from "./store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-// Lets define it here first for clear comparision
-import { StackParamList } from "./typed";
-import { useAppDispatch } from "./hooks";
+import { ListingStackParamList, MainScreenProps, RootStackParamList } from "./typed";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
+import { setSocket } from "./store/appState/slice";
 import { UserDashboardReqPage } from "./pages/UserDashboardReqPage";
 import { UserDashboardListingPage } from "./pages/UserDashboardListingPage";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// const Stack = createStackNavigator();
-
-// // You are using Line 46 Stack instead of RootStack, so Stack is the one you want to type
-const Stack = createStackNavigator<StackParamList>();
+import { selectToken } from "./store/user/selector";
+import { socket } from "./socket/socket";
 
 const AppWrapper = () => {
   return (
@@ -34,7 +32,11 @@ const AppWrapper = () => {
 
 const BottomTab = createBottomTabNavigator();
 
-function BottomTabs() {
+function BottomTabs({navigation}: MainScreenProps) {
+  const token = useAppSelector(selectToken)
+  useEffect(() => {
+    navigation.navigate("Login")
+  },[token])
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -89,7 +91,7 @@ function DashboardTabs() {
   );
 }
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 function RootStacks() {
   return (
@@ -106,7 +108,7 @@ function RootStacks() {
   );
 }
 
-const ListingStack = createStackNavigator<StackParamList>();
+const ListingStack = createStackNavigator<ListingStackParamList>();
 function ListingStacks() {
   return (
     <ListingStack.Navigator
@@ -125,6 +127,25 @@ function App() {
   useEffect(() => {
     dispatch(getTokenfromStore());
   }, []);
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log("connected")
+    });
+
+    socket.on('disconnect', () => {
+      console.log("disconnected")
+    });
+
+    socket.on('order_updated',(something)=> {
+      console.log('got event order_updated with', something)
+    })
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
+
 
   return (
     <NavigationContainer>
@@ -137,17 +158,9 @@ export default AppWrapper;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
   },
 });
-
-{
-  //   /* <Stack.Navigator>
-  // <Stack.Screen name="Listing" component={ListingPage} />
-  // <Stack.Screen name="Details" component={DetailsPage} />
-  // </Stack.Navigator> */
-}

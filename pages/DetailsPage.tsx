@@ -14,7 +14,6 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchOneListing, createRequestAndOrder } from "../store/listing/thunk";
-import { Props } from "../typed";
 import { useEffect, useState } from "react";
 import { selectListings, selectOneListing } from "../store/listing/selector";
 import { Listing } from "../typed";
@@ -25,9 +24,11 @@ import { clearSelectedListing } from "../store/listing/slice";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserInfo from "../componants/UserInfo";
 import ListingCard from "../componants/ListingCard";
+import ChatModal from "../componants/ChatModal";
 
 //NOT IDEAL! -> the props definition
 export function DetailsPage({ navigation, ...props }: any) {
+  const [chatOpen, setChatOpen] = useState(false)
   const dispatch = useAppDispatch();
   const id = props.route.params.id;
 
@@ -249,8 +250,19 @@ export function DetailsPage({ navigation, ...props }: any) {
             </TouchableOpacity>
           </View>
         </Modal>
+        <ChatModal
+          visible={chatOpen}
+          user={listingData.user}
+          onClose={() => {setChatOpen(false)}}
+        />
       </View>
       <View style={styles.bottomContainer}>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => {setChatOpen(true)}}
+          >
+            <Text style={styles.buttonText}> Chat </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => setModalVisible(true)}
@@ -345,7 +357,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   button: {
-    width: 180,
+    width: 164,
     marginTop: 8,
     alignItems: "center",
     backgroundColor: "#293F51",
@@ -355,7 +367,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 24,
     alignSelf: "flex-end",
-    margin: 16,
+    marginLeft: 16,
   },
   buttonText: {
     color: "white",
@@ -402,6 +414,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     width: "100%",
     height: 64,
+    flexDirection: "row"
   },
   inputContainer: {
     // flex: 1,

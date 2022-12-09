@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import listingReducer from "./listing/slice";
 import userReducer from "./user/slice";
+import appStateReducer from "./appState/slice";
 
 const store = configureStore({
   reducer: {
     listing: listingReducer,
     user: userReducer,
+    appState: appStateReducer,
   },
 });
 
