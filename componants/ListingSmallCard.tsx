@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 
     flexDirection: "row",
     alignItems: "center",
-    // shadowColor:"black",
-    // shadowOpacity:0.2,
+    shadowColor: "grey",
+    shadowOpacity: 0.15,
     // backgroundColor: "rgba(41,63,81,0.05)",
     backgroundColor: "white",
     // shadowOffset: {

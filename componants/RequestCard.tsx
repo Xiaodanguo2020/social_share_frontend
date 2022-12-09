@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     paddingBottom: 16,
     paddingTop: 8,
-    // width: 320,
   },
 
   dateContainer: {

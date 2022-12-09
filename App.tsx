@@ -9,7 +9,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 // Lets define it here first for clear comparision
-import { EnrichedListing, OrderType, Request, RootStackParamList, StackParamList } from "./typed";
+import {
+  EnrichedListing,
+  OrderType,
+  Request,
+  RootStackParamList,
+  StackParamList,
+} from "./typed";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
@@ -176,6 +182,7 @@ function App() {
 
     socket.on("order_updated", (order, listing, request) => {
       console.log("order_updated");
+      console.log("user", currentUser.id, request.userId);
       if (currentUser.id === parseInt(request.userId)) {
         Alert.alert(
           "order update:",
@@ -192,22 +199,31 @@ function App() {
       }
     });
 
-    socket.on("request_send", (listing: EnrichedListing, newRequest: Request, newOrder: OrderType) => {
-      console.log("request_send");
-      if (currentUser.id === listing.userId) {
-        Alert.alert(
-          `New request`,
-          `there is new request for your listing "${listing.title}"`,
-          [
-            {
-              text: "ok",
-              onPress: () => {
-                dispatch(updateListing(listing));
+    socket.on(
+      "request_send",
+      (listing: EnrichedListing, newRequest: Request, newOrder: OrderType) => {
+        console.log("request_send");
+        console.log("currenuser", currentUser.id, listing.userId);
+        if (currentUser.id === listing.userId) {
+          console.log("currenuser", currentUser.id, listing.userId);
+          Alert.alert(
+            `New request`,
+            `there is new request for your listing "${listing.title}"`,
+            [
+              {
+                text: "ok",
+                onPress: () => {
+                  dispatch(updateListing(listing));
+                },
               },
-            },
-          ]
-        );
+            ]
+          );
+        }
       }
+    );
+
+    socket.on("new_listing_created", (something) => {
+      // console.log("something", something);
     });
 
     return () => {

@@ -139,14 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(41,63,81,0.05)",
     alignSelf: "center",
   },
-  image: {
-    width: 64,
-    height: 64,
-    resizeMode: "cover",
-    backgroundColor: "blue",
-    marginBottom: 16,
-    alignSelf: "center",
-  },
+
   title: {
     alignSelf: "flex-start",
     fontSize: 14,

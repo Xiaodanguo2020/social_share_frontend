@@ -82,7 +82,7 @@ export default function MapViewPage({ navigation }: { navigation: any }) {
           </MapView>
         </View>
       )}
-      <ScrollView horizontal>
+      <ScrollView horizontal style={{ position: "absolute", bottom: 12 }}>
         <View>
           {!filterListingData ? (
             <Text>loading</Text>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     backgroundColor: "white",
     // width: 375,
-    height: 480,
+    height: "100%",
   },
   avatarImage: {
     alignSelf: "flex-start",
