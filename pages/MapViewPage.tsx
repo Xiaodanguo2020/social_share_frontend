@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     backgroundColor: "white",
     // width: 375,
-    height: 400,
+    height: 480,
   },
   avatarImage: {
     alignSelf: "flex-start",

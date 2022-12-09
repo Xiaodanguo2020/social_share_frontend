@@ -7,6 +7,7 @@ export type StackParamList = {
   MapView: undefined;
   UserDashboard: undefined;
   CameraTryOut: undefined;
+  Request: undefined;
 };
 
 export type RootStackParamList = {

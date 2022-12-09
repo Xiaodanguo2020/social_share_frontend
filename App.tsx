@@ -26,6 +26,8 @@ import { selectUser } from "./store/user/selector";
 import { current } from "@reduxjs/toolkit";
 import { updateOrderStatus } from "./store/listing/thunk";
 import { get } from "react-hook-form";
+import { Provider as PaperProvider } from "react-native-paper";
+import { RequestPage } from "./pages/RequestPage";
 
 // const Stack = createStackNavigator();
 
@@ -35,9 +37,11 @@ const socket = io(wsUrl);
 
 const AppWrapper = () => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <PaperProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </PaperProvider>
   );
 };
 
@@ -61,7 +65,7 @@ function BottomTabs() {
       />
       <BottomTab.Screen
         name="RequestRoot"
-        component={ListingStacks}
+        component={RequestStacks}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="home-repair-service" size={24} color={color} />
@@ -127,13 +131,27 @@ function ListingStacks() {
       <ListingStack.Screen name="Listing" component={ListingPage} />
       <ListingStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
         name="MapView"
         component={MapViewPage}
       />
       <ListingStack.Screen name="Details" component={DetailsPage} />
     </ListingStack.Navigator>
+  );
+}
+
+const RequestStack = createStackNavigator<StackParamList>();
+function RequestStacks() {
+  return (
+    <RequestStack.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerShown: true,
+      }}
+    >
+      <RequestStack.Screen name="Request" component={RequestPage} />
+    </RequestStack.Navigator>
   );
 }
 

@@ -164,8 +164,9 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   dateContainer: {
-    alignSelf: "flex-end",
+    alignItem: "flex-end",
     justifyContent: "space-between",
+    alignSelf: "flex-end",
     // flexDirection: "row",
   },
 });

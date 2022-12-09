@@ -23,6 +23,7 @@ import { Picker } from "@react-native-picker/picker";
 import { getTokenfromStore } from "../store/user/thunk";
 import { AntDesign } from "@expo/vector-icons";
 import ImagePickers from "../componants/ImagePickers";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export function ListingPage({ navigation }: { navigation: any }) {
   // useEffect(() => {
@@ -92,14 +93,14 @@ export function ListingPage({ navigation }: { navigation: any }) {
         showHideTransition={"fade"}
       />
       <ScrollView>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           // style={styles.buton}
           onPress={() => {
             navigation.navigate("MapView");
           }}
         >
           <Text>Go To Map View</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <Picker
           itemStyle={{ height: 72 }}
           selectedValue={filterCat}
@@ -244,7 +245,18 @@ export function ListingPage({ navigation }: { navigation: any }) {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.buttonText}>Add New listing</Text>
+        <Text style={styles.buttonText}>New listing</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.floatingButton2}
+        onPress={() => {
+          navigation.navigate("MapView");
+        }}
+      >
+        <Text style={styles.buttonText}>
+          <FontAwesome5 name="map" size={16} color="white" />
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -256,25 +268,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
+
+    // justifyContent: "center",
     //
-    marginLeft: 8,
   },
   logOutContainer: {
     height: 40,
   },
   floatingButton: {
     position: "absolute",
-    bottom: 24,
+    bottom: 12,
+    right: 24,
     alignSelf: "center",
-    width: 144,
+    width: 104,
     alignItems: "center",
     backgroundColor: "#F67C60",
-    height: 48,
+    height: 40,
     justifyContent: "center",
     color: "white",
     borderRadius: 32,
-    shadowColor: "blue",
-    shadowOpacity: 0.1,
+    shadowColor: "#F67C60",
+    shadowOpacity: 0.2,
 
     shadowOffset: {
       width: 4,
@@ -386,5 +401,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     margin: 8,
+  },
+  floatingButton2: {
+    position: "absolute",
+    bottom: 56,
+    right: 24,
+    alignSelf: "flex-end",
+    width: 56,
+    alignItems: "center",
+    backgroundColor: "#F67C60",
+    height: 40,
+    justifyContent: "center",
+    color: "white",
+    borderRadius: 64,
+    shadowColor: "#F67C60",
+    shadowOpacity: 0.2,
+
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
   },
 });

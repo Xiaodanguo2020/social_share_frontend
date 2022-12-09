@@ -32,17 +32,18 @@ export default function ListingCard<FC>(props: { listing: Listing }) {
 const styles = StyleSheet.create({
   container: {
     width: 164,
-    height: 248,
+    height: 228,
     borderRadius: 8,
     backgroundColor: "white",
     margin: 8,
     shadowColor: "grey",
     shadowOpacity: 0.15,
+    alignSelf: "center",
   },
   imageContainer: {},
   image: {
     width: 164,
-    height: 140,
+    height: 120,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     resizeMode: "cover",

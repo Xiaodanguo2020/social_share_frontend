@@ -60,6 +60,7 @@ export type OrderType = {
 export type Status = "created" | "accepted" | "rejected";
 
 export type Request = {
+  category: CategoryType;
   id: number;
   title: string;
   description: string;
@@ -70,6 +71,7 @@ export type Request = {
   categoryId: number;
   user: UserType;
   order?: OrderType;
+  userId: number;
 };
 
 export interface EnrichedRequest extends Request {

@@ -132,13 +132,12 @@ export function DetailsPage({ navigation, ...props }: any) {
             </View>
           </View>
         )}
-
-        <View style={{ marginBottom: 32 }}>
-          <Text style={styles.title}>Relevant Listings</Text>
+        <View>
+          <Text style={styles.relevantTitle}>Relevant Listings</Text>
           {!relevantListings ? (
             <Text>"loading...</Text>
           ) : (
-            <View style={styles.relevantContainer}>
+            <View style={styles.relevantCardContainer}>
               {relevantListings.map((list) => {
                 return <ListingCard key={list.id} listing={list} />;
               })}
@@ -255,7 +254,13 @@ export function DetailsPage({ navigation, ...props }: any) {
           style={styles.button}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={styles.buttonText}> Request this item</Text>
+          <Text style={styles.buttonText}> Request now</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonSec}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.buttonText}>start chat</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -295,8 +300,8 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: "#657D90",
-    fontWeight: "500",
-    opacity: 0.8,
+    fontWeight: "400",
+    opacity: 1,
   },
   avatarImage: {
     width: 48,
@@ -326,7 +331,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 64,
+    paddingBottom: 24,
   },
   map: {
     width: 332,
@@ -345,7 +350,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   button: {
-    width: 180,
+    width: 140,
     marginTop: 8,
     alignItems: "center",
     backgroundColor: "#293F51",
@@ -430,12 +435,36 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     width: "100%",
   },
-  relevantContainer: {
+
+  relevantCardContainer: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
     maxWidth: "100%",
+    paddingBottom: 56,
+    marginLeft: 8,
+  },
+
+  relevantTitle: {
+    alignSelf: "flex-start",
+    fontSize: 18,
+    color: "#293F51",
+    fontWeight: "600",
+    marginBottom: 12,
+    marginTop: 4,
+    marginLeft: 16,
+  },
+  buttonSec: {
+    alignItems: "center",
+    // backgroundColor: "#293F51",
+    height: 32,
+    justifyContent: "center",
+    color: "white",
+    borderRadius: 4,
+    width: 88,
+    borderColor: "#293F51",
+    borderWidth: 1,
     marginLeft: 8,
   },
 });

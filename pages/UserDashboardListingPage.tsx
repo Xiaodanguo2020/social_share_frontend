@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
 
   dateContainer: {
     alignSelf: "flex-end",
+    alignItems: "flex-end",
     justifyContent: "space-between",
     // flexDirection: "row",
   },
