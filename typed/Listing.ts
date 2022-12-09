@@ -79,3 +79,10 @@ export type MyRequests = {
   // order: OrderType;
   // user: UserType;
 };
+export type MessageType = {
+  message: string,
+  senderId: number,
+  receiverId: number,
+  timestamp: Date,
+  user: UserType,
+}

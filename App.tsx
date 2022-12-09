@@ -8,7 +8,7 @@ import store from "./store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ListingStackParamList, MainScreenProps, RootStackParamList } from "./typed";
+import { BottomTabsParamList, ListingStackParamList, MainScreenProps, RootStackParamList } from "./typed";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
@@ -21,6 +21,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { selectToken } from "./store/user/selector";
 import { socket } from "./socket/socket";
+import ChatPage from "./pages/ChatPage";
+
 
 const AppWrapper = () => {
   return (
@@ -30,7 +32,7 @@ const AppWrapper = () => {
   );
 };
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator<BottomTabsParamList>();
 
 function BottomTabs({navigation}: MainScreenProps) {
   const token = useAppSelector(selectToken)
@@ -69,6 +71,10 @@ function BottomTabs({navigation}: MainScreenProps) {
             <FontAwesome5 name="house-user" size={24} color={color} />
           ),
         }}
+      />
+      <BottomTab.Screen
+        name="Chat"
+        component={ChatPage}
       />
     </BottomTab.Navigator>
   );

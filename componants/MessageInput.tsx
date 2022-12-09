@@ -27,7 +27,8 @@ const MessageInput = ({ user } : Props) => {
 						message,
 						senderId: me.id,
 						receiverId: user.id,
-						timestamp: new Date()
+						timestamp: new Date(),
+						user: me
 					})
 					setMessage("")
 				}}

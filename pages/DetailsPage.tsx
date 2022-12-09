@@ -24,11 +24,9 @@ import { clearSelectedListing } from "../store/listing/slice";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserInfo from "../componants/UserInfo";
 import ListingCard from "../componants/ListingCard";
-import ChatModal from "../componants/ChatModal";
 
 //NOT IDEAL! -> the props definition
 export function DetailsPage({ navigation, ...props }: any) {
-  const [chatOpen, setChatOpen] = useState(false)
   const dispatch = useAppDispatch();
   const id = props.route.params.id;
 
@@ -250,16 +248,13 @@ export function DetailsPage({ navigation, ...props }: any) {
             </TouchableOpacity>
           </View>
         </Modal>
-        <ChatModal
-          visible={chatOpen}
-          user={listingData.user}
-          onClose={() => {setChatOpen(false)}}
-        />
       </View>
       <View style={styles.bottomContainer}>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => {setChatOpen(true)}}
+            onPress={() => {
+              //TODO: navigate to chat page
+            }}
           >
             <Text style={styles.buttonText}> Chat </Text>
         </TouchableOpacity>
