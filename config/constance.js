@@ -1,4 +1,4 @@
-const host = "172.20.10.9";
+const host = "172.20.10.4";
 
 export const apiUrl = process.env.API_URL || `http://${host}:4000`;
 export const wsUrl = process.env.API_URL || `ws://${host}:4000`;
