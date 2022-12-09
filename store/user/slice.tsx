@@ -67,6 +67,17 @@ export const userSlice = createSlice({
       state.myRequests = action.payload;
     },
 
+    updateListing: (state, action: PayloadAction<EnrichedListing>) => {
+      const newListing = action.payload
+      const newListings = state.myListings.map(listing => {
+        if (listing.id === newListing.id ) {
+          return newListing
+        }
+        return listing
+      })
+      state.myListings = newListings
+    },
+
     getListingsFromMe: (state, action: PayloadAction<EnrichedListing[]>) => {
       // console.log("payload for user from me", action.payload);
       state.myListings = action.payload;
@@ -97,6 +108,7 @@ export const {
   logOut,
   getRequestsFromMe,
   getListingsFromMe,
+  updateListing,
 } = userSlice.actions;
 
 export default userSlice.reducer;

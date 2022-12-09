@@ -9,7 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 // Lets define it here first for clear comparision
-import { RootStackParamList, StackParamList } from "./typed";
+import { EnrichedListing, OrderType, Request, RootStackParamList, StackParamList } from "./typed";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import React, { useEffect } from "react";
 import { getTokenfromStore } from "./store/user/thunk";
@@ -28,6 +28,7 @@ import { updateOrderStatus } from "./store/listing/thunk";
 import { get } from "react-hook-form";
 import { Provider as PaperProvider } from "react-native-paper";
 import { RequestPage } from "./pages/RequestPage";
+import { updateListing } from "./store/user/slice";
 
 // const Stack = createStackNavigator();
 
@@ -191,24 +192,22 @@ function App() {
       }
     });
 
-    socket.on("request_send", (listing, newRequest, newOrder) => {
+    socket.on("request_send", (listing: EnrichedListing, newRequest: Request, newOrder: OrderType) => {
       console.log("request_send");
-      if (currentUser.id === parseInt(listing.userId)) {
+      if (currentUser.id === listing.userId) {
         Alert.alert(
           `New request`,
           `there is new request for your listing "${listing.title}"`,
           [
             {
               text: "ok",
-              // onPress: () => {
-              //   dispatch(getTokenfromStore());
-              // },
+              onPress: () => {
+                dispatch(updateListing(listing));
+              },
             },
           ]
         );
       }
-      // dispatch(getTokenfromStore());
-      console.log("listing", listing);
     });
 
     return () => {
