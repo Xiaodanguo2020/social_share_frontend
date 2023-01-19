@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import Avatar from '../componants/Avatar'
 import { useAppSelector } from '../hooks'
 import { selectUser } from '../store/user/selector'
@@ -25,7 +25,7 @@ export default function ChatPage({route}: ChatPageProps) {
 	},[])
 
 	return (
-		<View style={styles.modalView}>
+		<ScrollView>
 			<View style={styles.header}>
 				<Avatar user={me}></Avatar>
 			</View>
@@ -36,7 +36,7 @@ export default function ChatPage({route}: ChatPageProps) {
 			</View>
 
 			<MessageInput user={user}/>
-		</View>)
+		</ScrollView>)
 }
 
 const styles = StyleSheet.create({
